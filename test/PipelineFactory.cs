@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,7 +28,7 @@ namespace Tests.Util
                 {
                     app.UseAuthentication();
 
-                    app.Use((context, next) =>
+                    app.Use((HttpContext context, RequestDelegate next) =>
                     {
                         var user = context.User;
 
@@ -40,7 +41,7 @@ namespace Tests.Util
                             context.Response.StatusCode = 401;
                         }
 
-                        return Task.CompletedTask;
+                       return Task.CompletedTask;
                     });
                 }));
         }
